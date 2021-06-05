@@ -7,21 +7,7 @@ bootstrap:
 
 bootstrap_down:
 	cd bootstrap && terraform init
-	cd bootstrap && terraform destroy --auto-approve && cd .. && rm outputs.txt
-
-bootstrap_outputs:
-	$(shell touch outputs.txt)
-	$(shell echo "kops_state_bucket_name:" > outputs.txt)
-	$(shell cd bootstrap && terraform output kops_state_bucket_name >> ../outputs.txt)
-	$(shell echo  "\n" >> outputs.txt)
-	$(shell echo "tf_state_bucket:" >> outputs.txt)
-	$(shell cd bootstrap && terraform output tf_state_bucket >> ../outputs.txt)
-	$(shell echo  "\n"  >> outputs.txt)
-	$(shell echo "dynamoDb_lock_table_name:" >> outputs.txt)
-	$(shell cd bootstrap && terraform output dynamoDb_lock_table_name >> ../outputs.txt)
-	$(shell echo  "\n" >> outputs.txt)
-	$(shell echo "repository-url:" >> outputs.txt)
-	$(shell cd bootstrap && terraform output repository-url >> ../outputs.txt)
+	cd bootstrap && terraform destroy --auto-approve 
 
 ########
 # KOPS
