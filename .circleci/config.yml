@@ -1,5 +1,18 @@
 version: 2.1
 commands:
+  get_aws_creds:
+    steps:
+      - run:
+          name: Get AWS credentials
+          command: |
+            mkdir ~/.aws/
+            cd ~/.aws/            
+            touch credentials
+            echo [default] >> credentials
+            echo aws_access_key_id=${aws_access_key_id} >> credentials
+            echo aws_secret_access_key=${aws_secret_access_key} >> credentials
+            echo aws_session_token=${aws_session_token} >> credentials
+
   install_deps:
     steps:
       - run:
@@ -128,11 +141,11 @@ jobs:
   package:
     machine: true
     environment:
-      ECR: "020045426932.dkr.ecr.us-east-1.amazonaws.com"
-      reponame: "rmit-assignment3-container-repo"
+      ECR: <<ECR>>
+      reponame: <<reponame>>
     steps:
       - checkout
-
+      - get_aws_creds
       - run:
           name: Set up
           command: |

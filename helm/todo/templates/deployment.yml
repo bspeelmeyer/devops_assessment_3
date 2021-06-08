@@ -1,0 +1,20 @@
+apiVersion: app/v1
+kind: Deployment
+  metadata:
+    name: "todo-app"
+  spec:
+    selector: 
+      matchLabels:
+        app: "todo"
+    replicas: 5
+    template:
+      metadata:
+        labels:
+          app: "todo"
+      spec:
+        containers:
+          - image: {{ .Values.image_id }}
+            imagePullPolicy: Always
+            name: "todo"
+            ports:
+              - containerPort: 5000
