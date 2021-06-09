@@ -1,18 +1,6 @@
 version: 2.1
 commands:
-  get_aws_creds:
-    steps:
-      - run:
-          name: Get AWS credentials
-          command: |
-            mkdir ~/.aws/
-            cd ~/.aws/            
-            touch credentials
-            echo [default] >> credentials
-            echo aws_access_key_id=${aws_access_key_id} >> credentials
-            echo aws_secret_access_key=${aws_secret_access_key} >> credentials
-            echo aws_session_token=${aws_session_token} >> credentials
-
+  
   install_deps:
     steps:
       - run:
@@ -44,7 +32,7 @@ commands:
           sudo curl -LO https://github.com/kubernetes/kops/releases/download/v1.18.0/kops-linux-amd64
           sudo chmod +x kops-linux-amd64
           sudo mv kops-linux-amd64 /usr/local/bin/kops
-          kops export kubecfg rmit.k8s.local --state s3://rmit-kops-state-3desz8
+          kops export kubecfg rmit.k8s.local --state s3://rmit-kops-state-4mgnvc
 
   smoke-test:
     parameters:
@@ -119,7 +107,7 @@ jobs:
             sudo curl -LO https://github.com/kubernetes/kops/releases/download/v1.18.0/kops-linux-amd64
             sudo chmod +x kops-linux-amd64
             sudo mv kops-linux-amd64 /usr/local/bin/kops
-            kops export kubecfg rmit.k8s.local --state s3://rmit-kops-state-3desz8
+            kops export kubecfg rmit.k8s.local --state s3://rmit-kops-state-4mgnvc
 
             apt-get install jq -y
 
@@ -145,7 +133,6 @@ jobs:
       reponame: "rmit-assignment3-container-repo"
     steps:
       - checkout
-      - get_aws_creds
       - run:
           name: Set up
           command: |
@@ -200,7 +187,6 @@ jobs:
       - attach_workspace:
           at: ./
       - setup-cd 
-      - get_aws_creds
       - run:
           name: deploy infra
           command: |
