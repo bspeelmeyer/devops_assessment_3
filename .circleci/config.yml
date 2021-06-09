@@ -200,10 +200,10 @@ jobs:
       - attach_workspace:
           at: ./
       - setup-cd 
+      - get_aws_creds
       - run:
           name: deploy infra
           command: |
-            get_aws_creds
             cd artifacts/infra
             make init
             make up
