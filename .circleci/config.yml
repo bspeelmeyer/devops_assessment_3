@@ -187,6 +187,32 @@ jobs:
           paths:
             - artifacts
 
+  deploy-test:
+    machine:
+      image: ubuntu-2004:202101-01
+    environment:
+      ENV: test
+    parameters:
+      environment:
+        type: string
+        default: test
+    steps:
+      - attach_workspace:
+          at: ./
+      - setup-cd 
+      - run:
+          name: deploy infra
+          command: |
+            cd artifacts/infra
+            make init
+            make up
+            terraform output db_endpoint > ../db_endpoint.txt
+      - run:
+          name: deploy application
+          command: 
+            helm upgrade todo artifacts/todo.tgz -i -n test --set db_endpoint=$(cat artifacts/db_endpoint.txt),image_id=$(cat artifacts/image.txt)
+
+      
 workflows:
   version: 2
   build-test-package:
@@ -198,6 +224,4 @@ workflows:
       - package:
           requires:
             - integration-test
-          filters:
-            branches:
-              only: master
+          

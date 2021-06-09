@@ -43,5 +43,22 @@ kops_bucket="${tmp#\"}"
 ####
 sed -i 's/<<kops_bucket_name>>/'$kops_bucket'/g' config.yml
 
+####
+# command to get infra state bucket and state lock files
+####
 
+y=$(cd ../bootstrap && terraform output tf_state_bucket)
+tmp1="${y%\"}"
+tf_state_bucket="${tmp1#\"}"
+
+z=$(cd ../bootstrap && terraform output dynamoDb_lock_table_name)
+tmp2="${z%\"}"
+tf_state_lock="${tmp2#\"}"
+
+####
+# command to update infra state bucket and state lock files
+####
+cd ../infra
+sed -i 's/<<state-file>>/'$tf_state_bucket'/g' Makefile
+sed -i 's/<<state-lock>>/'$tf_state_lock'/g' Makefile
 
