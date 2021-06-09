@@ -3,7 +3,7 @@ namespace-up namespace-down ssh-gen
 
 bootstrap:
 	cd bootstrap && terraform init
-	cd bootstrap && terraform apply --auto-approve && cd .. && make bootstrap_outputs
+	cd bootstrap && terraform apply --auto-approve 
 
 bootstrap_down:
 	cd bootstrap && terraform init
