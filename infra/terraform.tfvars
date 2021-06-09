@@ -1,5 +1,5 @@
 subnet_ids = [
-    "subnet-0ada60844cfd88c8d"
+    "subnet-0ada60844cfd88c8d",
     "subnet-025dea1b8bc83b17a"
 ]
 username = "testuser"
