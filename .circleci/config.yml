@@ -203,6 +203,7 @@ jobs:
       - run:
           name: deploy infra
           command: |
+            get_aws_creds
             cd artifacts/infra
             make init
             make up
