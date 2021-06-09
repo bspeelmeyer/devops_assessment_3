@@ -16,5 +16,8 @@ kind: Deployment
           - image: {{ .Values.image_id }}
             imagePullPolicy: Always
             name: "todo"
+            env:
+              - name: VTT_DBHOST
+                value: {{ .Values.db_endpoint}}
             ports:
               - containerPort: 5000
