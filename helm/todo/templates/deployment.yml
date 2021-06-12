@@ -13,11 +13,11 @@ kind: Deployment
           app: "todo"
       spec:
         containers:
-          - image: {{ .Values.image_id }}
-            imagePullPolicy: Always
-            name: "todo"
-            env:
-              - name: VTT_DBHOST
-                value: {{ .Values.db_endpoint}}
-            ports:
-              - containerPort: 5000
+        - image: {{ .Values.image_id }}
+          imagePullPolicy: Always
+          name: "todo"
+          env:
+            - name: VTT_DBHOST
+              value: {{ .Values.db_endpoint}}
+          ports:
+            - containerPort: 5000
