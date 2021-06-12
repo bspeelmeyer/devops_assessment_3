@@ -204,7 +204,9 @@ jobs:
           name: deploy application
           command: 
             helm upgrade todo artifacts/todo-0.1.0.tgz -i -n test --wait --set db_endpoint=$(cat artifacts/db_connection_string.txt),image_id=$(cat artifacts/image.txt)
-
+      
+      - smoke-test
+      
 workflows:
   version: 2
   build-test-package:
@@ -219,4 +221,5 @@ workflows:
       - deploy-test:
           requires:
             - package
+      
           
