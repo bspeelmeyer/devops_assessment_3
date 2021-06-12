@@ -204,7 +204,7 @@ jobs:
       - run:
           name: connect db
           command:
-            kubectl exec deployment/todo -n << parameters.environment >> -- ./npm run start --prefix src/
+            kubectl exec deployment/todo-0.1.0 -n << parameters.environment >> -- ./npm run start --prefix src/
       
 workflows:
   version: 2
