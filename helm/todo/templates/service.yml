@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: "todo-service"
+  name: "todo-app"
 spec:
   ports:
     - port: 80
