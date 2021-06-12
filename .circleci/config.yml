@@ -196,13 +196,13 @@ jobs:
             DB_URI=$(terraform output db_endpoint)
             DB_USER=$(terraform output db_user)
             DB_PASS=$(terraform output db_pass)
-            echo mongodb://$DB_USER:$DB_PASS@$DB_URI::27017/ > ../db_connection_string.txt
+            echo mongodb://testuser:testpassword@todo-db-test-docdb-cluster.cluster-cqwchioowczo.us-east-1.docdb.amazonaws.com::27017/ > ../db_connection_string.txt
             
             
       - run:
           name: deploy application
           command: 
-            helm upgrade todo artifacts/todo-0.1.0.tgz -i -n test --wait --set db_endpoint=$(cat artifacts/db_connection_string.txt),image_id=$(cat artifacts/image.txt)
+            helm upgrade todo artifacts/todo-0.1.0.tgz -i -n test --wait --set db_endpoint=mongodb://$DB_USER:$DB_PASS@$DB_URI::27017/,image_id=$(cat artifacts/image.txt)
 
 workflows:
   version: 2
