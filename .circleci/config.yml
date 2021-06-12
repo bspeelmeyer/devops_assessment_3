@@ -196,7 +196,7 @@ jobs:
             DB_URI=$(terraform output db_endpoint)
             DB_USER=$(terraform output db_user)
             DB_PASS=$(terraform output db_pass)
-            mongodb://$DB_USER:$DB_PASS@$DB_URI::27017/ > ../db_connection_string.txt
+            echo mongodb://$DB_USER:$DB_PASS@$DB_URI::27017/ > ../db_connection_string.txt
             
             
       - run:
