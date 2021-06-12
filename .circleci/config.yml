@@ -104,9 +104,9 @@ jobs:
             mv ./kubectl /usr/local/bin/kubectl
 
             # configure kops
-            sudo curl -LO https://github.com/kubernetes/kops/releases/download/v1.18.0/kops-linux-amd64
-            sudo chmod +x kops-linux-amd64
-            sudo mv kops-linux-amd64 /usr/local/bin/kops
+            curl -LO https://github.com/kubernetes/kops/releases/download/v1.18.0/kops-linux-amd64
+            chmod +x kops-linux-amd64
+            mv kops-linux-amd64 /usr/local/bin/kops
             kops export kubecfg rmit.k8s.local --state s3://rmit-kops-state-u9efqb
 
             apt-get install jq -y
