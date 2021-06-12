@@ -194,7 +194,7 @@ jobs:
             make init
             make up
             DB_URL="mongodb://$(terraform output db_user):$(terraform output db_pass)@$(terraform output db_endpoint)::27017/"
-            echo ${DB_URL} > ../artifacts/db.txt
+            echo ${DB_URL} > ../db.txt
       - run:
           name: deploy application
           command: 
