@@ -2,6 +2,17 @@ provider "aws" {
   region  = "us-east-1"
 }
 
+resource "aws_docdb_cluster_parameter_group" "tlsdisable" {
+  family      = "docdb4.0"
+  name        = "tls-disable"
+  description = "docdb cluster parameter group dissable tls"
+
+  parameter {
+    name  = "tls"
+    value = "disabled"
+  }
+}
+
 
 resource "random_string" "tfstatename" {
   length = 6
