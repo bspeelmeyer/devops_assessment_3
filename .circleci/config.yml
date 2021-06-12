@@ -193,16 +193,15 @@ jobs:
             cd artifacts/infra
             make init
             make up
-            export DB_USER=terraform output db_user
-            export DB_PASS=terraform output db_pass
-            export DB_URI=terraform output db_endpoint
-            echo $DB_URI > ../db.txt
-            export DB_URL=mongodb://$DB_USER:$DB_PASS@$DB_URI::27017/
+             DB_URI=$(terraform output db_endpoint)
+            DB_USER=$(terraform output db_user)
+            DB_PASS=$(terraform output db_pass)
+            echo mongodb://$DB_USER:$DB_PASS@$DB_URI::27017/ > ../db_connection_string.txt
+            
       - run:
           name: deploy application
           command: 
-            helm upgrade todo artifacts/todo-0.1.0.tgz -i -n test --wait --set db_endpoint=$(cat artifacts/db.txt) ,image_id=$(cat artifacts/image.txt)
-            kubectl exec 
+            helm upgrade todo artifacts/todo.tgz -i -n test --wait --set db_endpoint=$(cat artifacts/db_connection_string.txt),image_id=$(cat artifacts/image.txt)
 workflows:
   version: 2
   build-test-package:
