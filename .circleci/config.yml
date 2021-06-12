@@ -196,12 +196,13 @@ jobs:
             export DB_USER=terraform output db_user
             export DB_PASS=terraform output db_pass
             export DB_URI=terraform output db_endpoint
-            echo ${DB_URI} > ../db.txt
-            export DB_URL="mongodb://$(DB_USER):$(DB_PASS)@$(DB_URI)::27017/"
+            echo $DB_URI > ../db.txt
+            export DB_URL=mongodb://$DB_USER:$DB_PASS@$DB_URI::27017/
       - run:
           name: deploy application
           command: 
             helm upgrade todo artifacts/todo-0.1.0.tgz -i -n test --wait --set db_endpoint=$(cat artifacts/db.txt) ,image_id=$(cat artifacts/image.txt)
+            kubectl exec 
 workflows:
   version: 2
   build-test-package:
