@@ -32,7 +32,7 @@ commands:
           sudo curl -LO https://github.com/kubernetes/kops/releases/download/v1.18.0/kops-linux-amd64
           sudo chmod +x kops-linux-amd64
           sudo mv kops-linux-amd64 /usr/local/bin/kops
-          kops export kubecfg rmit.k8s.local --state s3://rmit-kops-state-s37qr2
+          kops export kubecfg rmit.k8s.local --state s3://<<kops_bucket_name>>
 
   smoke-test:
     parameters:
@@ -107,7 +107,7 @@ jobs:
             sudo curl -LO https://github.com/kubernetes/kops/releases/download/v1.18.0/kops-linux-amd64
             sudo chmod +x kops-linux-amd64
             sudo mv kops-linux-amd64 /usr/local/bin/kops
-            kops export kubecfg rmit.k8s.local --state s3://rmit-kops-state-s37qr2
+            kops export kubecfg rmit.k8s.local --state s3://<<kops_bucket_name>>
 
             apt-get install jq -y
 
@@ -129,8 +129,8 @@ jobs:
   package:
     machine: true
     environment:
-      ECR: "020045426932.dkr.ecr.us-east-1.amazonaws.com"
-      reponame: "rmit-assignment3-container-repo"
+      ECR: <<ECR>>
+      reponame: <<reponame>>
     steps:
       - checkout
       - run:
@@ -193,19 +193,16 @@ jobs:
             cd artifacts/infra
             make init
             make up
+            terraform output db_endpoint > ../db_endpoint.txt
             DB_URI=$(terraform output db_endpoint)
             DB_USER=$(terraform output db_user)
             DB_PASS=$(terraform output db_pass)
-            echo mongodb://$DB_USER:$DB_PASS@$DB_URI::27017/ > ../db_connection_string.txt
+            DB_URL="mongodb://$($DB_USER):$(DB_PASS)@$(DB_URI)::27017/"
+
       - run:
           name: deploy application
           command: 
-            helm upgrade todo artifacts/todo-0.1.0.tgz -i -n test --wait --set db_endpoint=$(cat artifacts/db_connection_string.txt),image_id=$(cat artifacts/image.txt)
-      - run:
-          name: connect db
-          command:
-            kubectl exec deployment/todo-0.1.0 -n << parameters.environment >> -- ./npm run start --prefix src/
-      
+            helm upgrade todo artifacts/todo-0.1.0.tgz -i -n test --wait --set db_endpoint=$(cat artifacts/db_endpoint.txt),image_id=$(cat artifacts/image.txt)
 workflows:
   version: 2
   build-test-package:
