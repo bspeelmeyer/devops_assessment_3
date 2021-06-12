@@ -19,7 +19,5 @@ spec:
         env:
           - name: DB_URL
             value: {{ .Values.db_endpoint}}
-          - name: ENDPOINT
-            value: {{ .Values.endpoint }}
         ports:
         - containerPort: 5000
