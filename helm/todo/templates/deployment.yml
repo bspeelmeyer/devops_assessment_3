@@ -1,4 +1,4 @@
-apiVersion: app/v1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: "todo-app"
@@ -20,4 +20,4 @@ spec:
           - name: VTT_DBHOST
             value: {{ .Values.db_endpoint}}
         ports:
-          - containerPort: 5000
+        - containerPort: 5000
