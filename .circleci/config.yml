@@ -193,13 +193,12 @@ jobs:
             cd artifacts/infra
             make init
             make up
-            terraform output db_endpoint > ../db_endpoint.txt
             export DB_URL="mongodb://$(terraform output db_user):$(terraform output db_pass)@$(terraform output db_endpoint)::27017/"
 
       - run:
           name: deploy application
           command: 
-            helm upgrade todo artifacts/todo-0.1.0.tgz -i -n test --wait --set db_endpoint=$(cat artifacts/db_endpoint.txt),image_id=$(cat artifacts/image.txt)
+            helm upgrade todo artifacts/todo-0.1.0.tgz -i -n test --wait --set db_endpoint=$DB_URL ,image_id=$(cat artifacts/image.txt)
 workflows:
   version: 2
   build-test-package:
