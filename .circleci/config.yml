@@ -193,12 +193,8 @@ jobs:
             cd artifacts/infra
             make init
             make up
-            terraform output db_endpoint > ../db_endpoint.txt
-            DB_URI=$(terraform output db_endpoint)
-            DB_USER=$(terraform output db_user)
-            DB_PASS=$(terraform output db_pass)
-            DB_URL="mongodb://$DB_USER:$DB_PASS@$DB_URI::27017/"
-
+            export DB_URL="mongodb://$(cd bootstrap terraform output db_user):$(terraform output db_pass)@$(terraform output db_endpoint)::27017/"
+            echo "mongodb://$(terraform output db_user):$(terraform output db_pass)@$(terraform output db_endpoint)::27017/" > ../artifacts/de_endpoint.txt
       - run:
           name: deploy application
           command: 
