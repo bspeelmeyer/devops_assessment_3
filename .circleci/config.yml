@@ -197,7 +197,7 @@ jobs:
             DB_URI=$(terraform output db_endpoint)
             DB_USER=$(terraform output db_user)
             DB_PASS=$(terraform output db_pass)
-            DB_URL="mongodb://$($DB_USER):$(DB_PASS)@$(DB_URI)::27017/"
+            DB_URL="mongodb://$DB_USER:$DB_PASS@$DB_URI::27017/"
 
       - run:
           name: deploy application
