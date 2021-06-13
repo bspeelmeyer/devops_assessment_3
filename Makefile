@@ -40,10 +40,12 @@ kube-config:
 namespace-up:
 	kubectl create namespace test
 	kubectl create namespace prod
+	kubectl create namespace amazon-cloudwatch
 
 namespace-down:
 	kubectl delete namespace test
 	kubectl delete namespace prod
+	kubectl delete namespace amazon-cloudwatch
 
 ########
 # SSH
@@ -55,16 +57,7 @@ ssh-gen:
 	chmod 0644 ~/keys/ec2-key.pub
 	chmod 0600 ~/keys/ec2-key
 
-deploy-all:
-	make bootstrap
-	sleep 10
-	make kube-create-cluster
-	make kube-secret
-	make kube-deploy-cluster
-	make kube-config
-	sleep 300
-	make kube-validate
-	make namespace-up
-	./update_vars.sh
-	echo ""
-	echo "You can now commit!!!"
+deploy-logging:
+	aws iam attach-role-policy --role-name nodes.rmit.k8s.local --policy-arn arn:aws:iam::aws:policy/AdministratorAccess
+	kubectl create configmap cluster-info --from-literal=cluster.name=rmit.k8s.local --from-literal=logs.region=us-east-1 -n amazon-cloudwatch
+	kubectl apply -f fluentd.yaml
