@@ -270,6 +270,7 @@ workflows:
             - deploy-test
       - deploy-prod:
           requires:
+            - e2e
             - approval
       
           
