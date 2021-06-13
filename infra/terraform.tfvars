@@ -1,8 +1,8 @@
 subnet_ids = [
-    "subnet-049e6c3913cb25334",
-    "subnet-0592b223da65a303f"
+    "<<subnet_id_0>>",
+    "<<subnet_id_1>>"
 ]
 username = "testuser"
 password = "testpassword"
-vpc_id = "vpc-087b245ea17d1fce8"
+vpc_id = "<<vpc_id>>"
 name = "todo-db"
