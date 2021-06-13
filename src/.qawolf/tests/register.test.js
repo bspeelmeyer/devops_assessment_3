@@ -5,7 +5,7 @@ describe('register', () => {
   let browser;
 
   beforeAll(async () => {
-    browser = await launch({ url: "http://localhost:5000/" });
+    browser = await launch({ url: process.env.ENDPOINT || "http://localhost:5000/" });
   });
 
   afterAll(() => browser.close());
