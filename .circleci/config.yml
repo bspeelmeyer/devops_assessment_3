@@ -209,7 +209,7 @@ jobs:
             echo mongodb://$DB_USER:$DB_PASS@$DB_URI::27017/ > ../db_connection_string.txt
             cat ../db_connection_string.txt
 
-    deploy-prod:
+  deploy-prod:
     machine:
       image: ubuntu-2004:202101-01
     environment:
