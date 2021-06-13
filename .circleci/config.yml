@@ -208,6 +208,12 @@ jobs:
 
             echo mongodb://$DB_USER:$DB_PASS@$DB_URI::27017/ > ../db_connection_string.txt
             cat ../db_connection_string.txt
+      - run:
+          name: deploy application
+          command: 
+            helm upgrade todo artifacts/todo-0.1.0.tgz -i -n test --set db_endpoint=$(cat artifacts/db_connection_string.txt),image_id=$(cat artifacts/image.txt),
+      
+      - smoke-test
 
   deploy-prod:
     machine:
