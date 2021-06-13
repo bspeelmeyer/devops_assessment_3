@@ -54,3 +54,17 @@ ssh-gen:
 	yes | ssh-keygen -t rsa -b 4096 -f ~/keys/ec2-key -P ''
 	chmod 0644 ~/keys/ec2-key.pub
 	chmod 0600 ~/keys/ec2-key
+
+deploy-all:
+	make bootstrap
+	sleep 10
+	make kube-create-cluster
+	make kube-secret
+	make kube-deploy-cluster
+	make kube-config
+	sleep 300
+	make kube-validate
+	make namespace-up
+	./update_vars.sh
+	echo ""
+	echo "You can now commit!!!"
